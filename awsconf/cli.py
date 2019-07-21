@@ -30,5 +30,17 @@ def build(profiles_dir):
     builder.build()
 
 
+@cli.command("final-build")
+@click.option(
+    "--profiles-dir",
+    type=click.Path(exists=True),
+    default=DEFAULT_AWS_DIR.joinpath("profiles"),
+    help="Directory from where the system will read YAML config/profiles.",
+)
+def final_build(profiles_dir):
+    """Build AWS configurations and credentials files."""
+    build(profiles_dir)
+
+
 if __name__ == "__main__":
     cli()
