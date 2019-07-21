@@ -4,7 +4,7 @@ import logging
 import click
 
 from awsconf.builder import ConfBuilder
-from awsconf.settings import DEFAULT_AWS_DIR, PROJECT_DIR
+from awsconf.settings import DEFAULT_AWS_DIR
 
 
 @click.group()
@@ -18,26 +18,10 @@ def cli():
 @click.option(
     "--profiles-dir",
     type=click.Path(exists=True),
-    default=PROJECT_DIR.parent.joinpath("profiles"),
-    # default=DEFAULT_AWS_DIR.joinpath("profiles"),
-    help="Directory from where the system will read YAML config/profiles.",
-)
-def build(profiles_dir):
-    """Build AWS configurations and credentials files."""
-    logging.info("Profiles Directory: %s", profiles_dir)
-
-    builder = ConfBuilder(profiles_dir)
-    builder.build()
-
-
-@cli.command("final-build")
-@click.option(
-    "--profiles-dir",
-    type=click.Path(exists=True),
     default=DEFAULT_AWS_DIR.joinpath("profiles"),
     help="Directory from where the system will read YAML config/profiles.",
 )
-def final_build(profiles_dir):
+def build(profiles_dir):
     """Build AWS configurations and credentials files."""
     logging.info("Profiles Directory: %s", profiles_dir)
 
