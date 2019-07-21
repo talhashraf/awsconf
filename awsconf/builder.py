@@ -5,6 +5,7 @@ from awsconf.templates import (
     CREDENTIAL_TEMPLATE,
 )
 from awsconf.utils import load_yaml, merge_dicts
+from awsconf.settings import AWS_CONF_FILE, AWS_CRED_FILE
 
 
 class ConfBuilder:
@@ -48,14 +49,14 @@ class ConfBuilder:
 
     def build(self):
         """Build config file."""
-        with open("credentials", "w") as outfile:
+        with open(AWS_CRED_FILE, "w") as outfile:
             for profile in self.creds_profiles:
                 profile_stream = CREDENTIAL_TEMPLATE.render(
                     profile=profile)
                 outfile.write(profile_stream)
                 outfile.write("\n\n")
 
-        with open("config", "w") as outfile:
+        with open(AWS_CONF_FILE, "w") as outfile:
             for profile in self.config_profiles:
                 for profile_stream in self.parse_config_profile(profile):
                     outfile.write(profile_stream)
