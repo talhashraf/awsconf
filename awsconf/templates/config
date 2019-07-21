@@ -1,3 +1,6 @@
 [profile {{ profile["name"] }}]
 output={{ profile["output"] }}
 region={{ profile["region"] }}
+{% if profile.get("mfa_serial") -%}
+    mfa_serial={{ profile["mfa_serial"] }}
+{% endif %}
