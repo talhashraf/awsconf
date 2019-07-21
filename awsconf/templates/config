@@ -1,0 +1,3 @@
+[profile {{ profile["name"] }}]
+output={{ profile["output"] }}
+region={{ profile["region"] }}

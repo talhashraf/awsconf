@@ -1,0 +1,37 @@
+[flake8]
+application-package-names = awsconf
+application-import-names = awsconf
+import-order-style = pycharm
+
+select =
+  B,  # bugbear
+  B9,  # bugbear opinionated
+  C,  # mccabe, comprehensions, commas
+  D,  # docstrings
+  E,  # pycodestyle errors
+  F,  # pyflakes
+  G,  # logging format
+  I,  # imports
+  P,
+  Q,  # quotes
+  RST,  # rst docstring formatting
+  T0,  # print
+  T4,  # mypy
+  W,  # pycodestyle warnings
+
+max-line-length = 120
+max-complexity = 10
+
+inline-quotes = double
+multiline-quotes = double
+docstring-quotes = double
+
+exclude =
+  .git,
+  node_modules,
+  __pycache__,
+  deps,
+  venv,
+  docs,
+
+format = ${cyan}%(path)s${reset}:${yellow_bold}%(row)d${reset}:${green_bold}%(col)d${reset}: ${red_bold}%(code)s${reset} %(text)s
