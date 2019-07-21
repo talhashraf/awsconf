@@ -39,7 +39,10 @@ def build(profiles_dir):
 )
 def final_build(profiles_dir):
     """Build AWS configurations and credentials files."""
-    build(profiles_dir)
+    logging.info("Profiles Directory: %s", profiles_dir)
+
+    builder = ConfBuilder(profiles_dir)
+    builder.build()
 
 
 if __name__ == "__main__":
