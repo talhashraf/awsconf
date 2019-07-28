@@ -3,7 +3,7 @@ import logging
 
 import click
 
-from awsconf.builder import ConfBuilder
+from awsconf.builder import Builder
 from awsconf.settings import DEFAULT_AWS_DIR
 
 
@@ -16,17 +16,32 @@ def cli():
 
 @cli.command("build")
 @click.option(
-    "--profiles-dir",
+    "--profiles-file",
     type=click.Path(exists=True),
-    default=DEFAULT_AWS_DIR.joinpath("profiles"),
-    help="Directory from where the system will read YAML config/profiles.",
+    default=DEFAULT_AWS_DIR.joinpath("profiles.yaml"),
+    help="File path from where the system will read YAML profiles.",
 )
-def build(profiles_dir):
+@click.option(
+    "--no-credentials",
+    type=bool,
+    default=False,
+    help="True means it will not generate credentials file.",
+)
+@click.option(
+    "--no-config",
+    type=bool,
+    default=False,
+    help="True means it will not generate config file.",
+)
+def build(profiles_file, no_credentials, no_config):
     """Build AWS configurations and credentials files."""
-    logging.info("Profiles Directory: %s", profiles_dir)
+    builder = Builder(profiles_file)
 
-    builder = ConfBuilder(profiles_dir)
-    builder.build()
+    if not no_credentials:
+        builder.build_config()
+
+    if not no_config:
+        builder.build_credentials()
 
 
 if __name__ == "__main__":

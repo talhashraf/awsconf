@@ -1,8 +1,0 @@
-[profile {{ profile["name"] }}-{{ assume_role["name"] }}]
-output={{ profile["output"] }}
-region={{ profile["region"] }}
-role_arn=arn:aws:iam::{{ profile["account"]["id"] }}:role/{{ assume_role["role"] }}
-source_profile={{ profile["source"] }}
-{% if profile.get("mfa_serial") -%}
-    mfa_serial={{ profile["mfa_serial"] }}
-{% endif %}

@@ -1,6 +1,41 @@
-[profile {{ profile["name"] }}]
-output={{ profile["output"] }}
-region={{ profile["region"] }}
-{% if profile.get("mfa_serial") -%}
-    mfa_serial={{ profile["mfa_serial"] }}
+{% for org in config.organizations -%}
+
+{% for profile in org.profiles -%}
+
+{% if "assume_roles" in profile -%}
+
+{% for source_profile in profile.assume_roles.sources -%}
+
+{% for role in profile.assume_roles.roles -%}
+
+[profile {{ org.name }}-{{ source_profile }}-{{ profile.name }}-{{ role.name }}]
+output={{ profile.output or org.output or config.output }}
+region={{ profile.region or org.region or config.region }}
+source_profile={{ org.name }}-{{ source_profile }}
+role_arn=arn:aws:iam::{{ profile.assume_roles.account }}:role/{{ role.role }}
+{% if profile.mfa_serial -%}
+
+mfa_serial={{ profile.mfa_serial }}
+
 {% endif %}
+
+{% endfor %}
+
+{% endfor %}
+
+{% else -%}
+
+[profile {{ org.name }}-{{ profile.name }}]
+output={{ profile.output or org.output or config.output }}
+region={{ profile.region or org.region or config.region }}
+{% if profile.mfa_serial -%}
+
+mfa_serial={{ profile.mfa_serial }}
+
+{% endif %}
+
+{% endif -%}
+
+{% endfor -%}
+
+{% endfor %}

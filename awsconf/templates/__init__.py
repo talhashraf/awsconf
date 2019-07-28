@@ -1,14 +1,19 @@
 """Templates configurations."""
-from jinja2 import Template
+from jinja2 import Environment, FileSystemLoader
 
-from awsconf.settings import TEMPLATES_DIR
+from awsconf.settings import PROJECT_DIR
 
 
-with open(TEMPLATES_DIR.joinpath("credential")) as stream:
-    CREDENTIAL_TEMPLATE = Template(stream.read())
+TEMPLATES_DIR = PROJECT_DIR.joinpath("templates")
 
-with open(TEMPLATES_DIR.joinpath("config")) as stream:
-    CONFIG_TEMPLATE = Template(stream.read())
+# Initiate template loader.
+template_loader = FileSystemLoader(searchpath=str(TEMPLATES_DIR))
+template_env = Environment(
+    loader=template_loader,
+    trim_blocks=True,
+    lstrip_blocks=True,
+    keep_trailing_newline=True,
+)
 
-with open(TEMPLATES_DIR.joinpath("config-with-assume-roles")) as stream:
-    CONFIG_WITH_ASSUME_ROLES_TEMPLATE = Template(stream.read())
+CREDENTIAL_TEMPLATE = template_env.get_template("credential")
+CONFIG_TEMPLATE = template_env.get_template("config")
